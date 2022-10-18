@@ -1,13 +1,15 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { createContext, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/UserContext';
 import './login.css'
 
 const LogIn = () => {
 
-  const {logInUser} = useContext(AuthContext);
+  const {logInUser, setLoading} = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation()
+  let from = location.state?.from?.pathname || "/";
 
 
   const handleOnSubmit = e => {
@@ -18,11 +20,12 @@ const LogIn = () => {
     const password = form.password.value;
 
     //lognIn user-
+    setLoading(true)
     logInUser(email, password)
     .then(result => {
       console.log(result.user);
       form.reset()
-      navigate('/')
+      navigate(from, { replace: true })
     })
   }
 

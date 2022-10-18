@@ -12,7 +12,8 @@ const Auth = getAuth(app)
 //--------------------------------------------
 const UserContext = ({children}) => {
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true)
 
 
   //create-user-
@@ -34,12 +35,13 @@ const UserContext = ({children}) => {
     const unsubscrib = onAuthStateChanged(Auth, currentUser =>{
       console.log(currentUser);
       setUser(currentUser)
+      setLoading(false)
     })
 
     return () => unsubscrib();
   },[])
 
-  const authInfo = { user, signUpUser, logInUser, signOutUser }
+  const authInfo = { user, loading, setLoading, signUpUser, logInUser, signOutUser }
   
   return (
     <div>

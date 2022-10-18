@@ -12,7 +12,7 @@ import './signup.css'
 
 const SIgnUp = () => {
 
-  const {signUpUser} = useContext(AuthContext)
+  const {signUpUser, setLoading} = useContext(AuthContext)
 
   const handleOnSubmit = e => {
     e.preventDefault();
@@ -27,6 +27,7 @@ const SIgnUp = () => {
       return;
     }
 
+    setLoading(true)
     signUpUser(email, password)
     .then(result =>{
       console.log(result.user);
